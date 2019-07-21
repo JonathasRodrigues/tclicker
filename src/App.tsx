@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import ListMyItems from './components/ListMyItems';
 import ListAvaiableItems from './components/AvaiableItems';
-import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import Scene from './components/Scene';
 
 const styles = {
   root: {
@@ -16,7 +15,7 @@ const styles = {
 
 class App extends Component<any, any> {
   render() {
-    const { count, addCount, classes } = this.props;
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Grid container spacing={2}>
@@ -24,12 +23,7 @@ class App extends Component<any, any> {
             <ListMyItems />
           </Grid>
           <Grid item xs={4}>
-            <div>
-              <Button color='secondary' onClick={() => addCount()}>Click here</Button>
-              <p>
-                {count}
-              </p>
-            </div>
+            <Scene />
           </Grid>
           <Grid item xs={4}>
             <ListAvaiableItems />
@@ -40,17 +34,4 @@ class App extends Component<any, any> {
   }
 }
 
-function mapStateToProps(state: any) {
-  const { MainCount } = state;
-  return {
-    count: MainCount
-  }
-}
-
-function mapDispatchToProps(dispatch: any){
-  return {
-    addCount: () => dispatch({ type: 'ADD_COUNT'})
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
+export default withStyles(styles)(App);
