@@ -23,6 +23,9 @@ const styles = {
   inline: {
     display: 'inline',
   },
+  avatar: {
+    margin: 10,
+  },
 };
 
 
@@ -45,7 +48,7 @@ class ListAvaiableItems extends Component<any, any> {
            <ListItem alignItems='flex-start' disabled={count < item.price} 
                    key={`Item-${item.id}`} onClick={() => addItem(item)} button>
            <ListItemAvatar>
-             <Avatar alt={`Item ${item.name} image`} src={item.image} />
+             <Avatar alt={`Item ${item.name} image`} src={item.image} className={classes.avatar} />
            </ListItemAvatar>
            <ListItemText
              primary={item.name}
