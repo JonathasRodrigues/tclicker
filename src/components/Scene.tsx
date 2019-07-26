@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Divider, Typography } from '@material-ui/core';
-import Character from '../classes/Character';
+import { connect, ReactReduxContext, Provider } from 'react-redux';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { Stage, Layer } from 'react-konva';
+import Character from './Character';
+import Scenario from './Scenario';
+import Enemy from './Enemy';
 
 const styles = {
   root: {
@@ -16,28 +18,35 @@ const styles = {
 
 class Scene extends Component<any, any> {
   render() {
-    const { count, addCount, classes } = this.props;
-    const character = new Character({ name: 'Joohny', level: 1, outfit: '/outfits/basic.gif' });
+    const { classes, count, world } = this.props;
     return (
-      <div className={classes.root}>
-        <p>Name: {character.name}</p>
-        <p>Level: {character.level}</p>
-        <img src={character.outfit} alt='outfit' />
-        <Divider />
-        <p> Clique no báu </p>
-        <img alt='bau' src='/items/bau.gif' className={classes.button} onClick={() => addCount()}></img>
-        <Typography variant='h2' gutterBottom>
-          {count}
-        </Typography>
-      </div>
+      <ReactReduxContext.Consumer>
+        {({ store }) => (
+          <React.Fragment>
+            <Stage width={world.width} height={world.height} className={classes.root}>
+              <Provider store={store}>
+                <Layer>
+                    <Scenario />
+                </Layer>
+                <Layer>
+                  <Character />
+                  <Enemy/>
+                </Layer>
+              </Provider>
+            </Stage>
+            <h1>{count} Gold Coins</h1>
+          </React.Fragment>
+        )}
+      </ReactReduxContext.Consumer>
     );
   }
 }
 
 function mapStateToProps(state: any) {
-  const { MainCount } = state;
+  const { MainCount, World } = state;
   return {
-    count: MainCount
+    count: MainCount,
+    world: World
   }
 }
 

@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import items from './DefaultItems';
+import items from 'definitions/items';
 import { IItem } from './classes/Item';
+import { IMonster } from './classes/Monster';
+import World, { IWorld } from './classes/World';
 
 function MainCount(state: number = 0, action: any) {
   switch(action.type) {
@@ -38,10 +40,29 @@ function MyItems(state: IItem[] = [], action: any): Array<IItem> {
   }
 }
 
+function Respaw(state: IMonster[] = [], action: any) {
+  switch(action.type) {
+    case 'ADD_NEW_MONSTER':
+      return state;
+    case 'REMOVE_MONSTER':
+      return state;
+    case 'CHANGE_RESPAW':
+      return state;
+    default:
+      return state;
+  }
+}
+
+function CurrentWorld (state: IWorld = new World(), action: any) {
+  return state;
+}
+
 const rootReducer = combineReducers({
+  World: CurrentWorld, 
   MainCount,
   AvaiableItems,
-  MyItems
+  MyItems,
+  Respaw
 });
 
 export default rootReducer;

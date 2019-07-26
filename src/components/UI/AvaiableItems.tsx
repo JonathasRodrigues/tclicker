@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { IItem } from "../classes/Item";
+import { IItem } from "classes/Item";
 import { connect } from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -45,7 +45,7 @@ class ListAvaiableItems extends Component<any, any> {
         >
           {Array.isArray(list)
             ? list.map((item: IItem) => (
-                <React.Fragment>
+                <React.Fragment key={item.id}>
                   <Divider />
                   <ListItem
                     alignItems="flex-start"

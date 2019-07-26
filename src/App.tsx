@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import ListMyItems from './components/ListMyItems';
-import ListAvaiableItems from './components/AvaiableItems';
+import ListMyItems from './components/UI/ListMyItems';
+import ListAvaiableItems from './components/UI/AvaiableItems';
 import { withStyles } from '@material-ui/core/styles';
 import Scene from './components/Scene';
 
@@ -18,14 +18,14 @@ class App extends Component<any, any> {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+        <Grid container justify='center'>
+          <Grid item xs={3}>
             <ListMyItems />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Scene />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <ListAvaiableItems />
           </Grid>
         </Grid>

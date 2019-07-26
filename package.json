@@ -12,14 +12,18 @@
     "@types/react-redux": "^7.1.1",
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.7",
+    "konva": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-konva": "^16.8.7-3",
     "react-redux": "^7.1.0",
     "react-scripts": "3.0.1",
+    "react-spring": "^8.0.27",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "typescript": "3.5.3"
+    "typescript": "3.5.3",
+    "use-image": "^1.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

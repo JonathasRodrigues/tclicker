@@ -1,4 +1,4 @@
-import Item from './classes/Item';
+import Item from 'classes/Item';
 
 const itemPath = (name: string) => {
   return `/items/${name}.gif`;
