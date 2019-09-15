@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect, ReactReduxContext, Provider } from 'react-redux';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { Stage, Layer } from 'react-konva';
-import Character from './Character';
+import Scenes from 'definitions/scenes';
+import { IScene } from 'classes/Scene';
 import Scenario from './Scenario';
-import Enemy from './Enemy';
+import { Button } from '@material-ui/core';
 
 const styles = {
   root: {
@@ -18,23 +19,24 @@ const styles = {
 
 class Scene extends Component<any, any> {
   render() {
-    const { classes, count, world } = this.props;
+    const { classes, count, world, currentLevel, nextLevel, previousLevel } = this.props;
+    const currentScene = Scenes[currentLevel];
     return (
       <ReactReduxContext.Consumer>
         {({ store }) => (
           <React.Fragment>
             <Stage width={world.width} height={world.height} className={classes.root}>
               <Provider store={store}>
-                <Layer>
-                    <Scenario />
-                </Layer>
-                <Layer>
-                  <Character />
-                  <Enemy/>
-                </Layer>
+                {currentScene.map((scene: IScene) => (
+                  <Layer key={scene.name}>
+                    <Scenario scene={scene} />
+                  </Layer>
+                ))}
               </Provider>
             </Stage>
             <h1>{count} Gold Coins</h1>
+            <Button onClick={previousLevel}> Previous Level </Button>
+            <Button onClick={nextLevel}> Next Level </Button>
           </React.Fragment>
         )}
       </ReactReduxContext.Consumer>
@@ -43,16 +45,19 @@ class Scene extends Component<any, any> {
 }
 
 function mapStateToProps(state: any) {
-  const { MainCount, World } = state;
+  const { MainCount, World, Level } = state;
   return {
     count: MainCount,
-    world: World
+    world: World,
+    currentLevel: Level
   }
 }
 
 function mapDispatchToProps(dispatch: any){
   return {
-    addCount: () => dispatch({ type: 'ADD_COUNT'})
+    addCount: () => dispatch({ type: 'ADD_COUNT'}),
+    previousLevel: () => dispatch({ type: 'PREVIOUS_LEVEL' }),
+    nextLevel: () => dispatch({ type: 'NEXT_LEVEL' })
   }
 }
 

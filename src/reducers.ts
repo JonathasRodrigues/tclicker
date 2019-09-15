@@ -57,12 +57,24 @@ function CurrentWorld (state: IWorld = new World(), action: any) {
   return state;
 }
 
+function Level(state: number = 0, action: any) {
+  switch(action.type) {
+    case 'NEXT_LEVEL':
+      return state + 1;
+    case 'PREVIOUS_LEVEL':
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   World: CurrentWorld, 
   MainCount,
   AvaiableItems,
   MyItems,
-  Respaw
+  Respaw,
+  Level
 });
 
 export default rootReducer;

@@ -2,6 +2,7 @@ import Sprite, { ISprite } from 'classes/Sprite';
 
 const DemonSprite: ISprite = new Sprite({
   file: 'monsters/demon.png',
+  defaultAnimation: 'stopped',
   animations: {
     stopped : [
       130, 255, 62, 62,

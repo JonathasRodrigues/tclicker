@@ -49,8 +49,8 @@ export default class World {
       this.height = world.height;
       this.fieldSize = world.fieldSize;
     } else {
-      this.width = 640;
-      this.height = 480;
+      this.width = 320;
+      this.height = 320;
       this.fieldSize = 32;
     }
   }

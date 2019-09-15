@@ -1,28 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Sprite } from 'react-konva';
+import { Sprite, Rect } from 'react-konva';
 import useImage from 'use-image';
 import { IWorld } from 'classes/World';
+import { IScene } from 'classes/Scene';
+import { ITile } from 'classes/Tile';
+import ScenesTypes from 'definitions/scenes/types';
+import { ISprite } from 'classes/Sprite';
+import Mob from './Mob';
+
+
+interface IProps {
+  scene: IScene
+}
 
 interface IPropsFromConnect {
   world: IWorld;
 }
 
 function Field (props: any) {
-  const [charImage] = useImage('./sprites/scenario.png');
-  const { size } = props;
-  const standing = [
-    0, 480, size, size,
-  ];
-  return (
-    <Sprite x={props.x} y={props.y} ref={(node => {if(node && !node.isRunning()) node.start()})}
-    image={charImage} animations={{ standing }} animation={'standing'} frameRate={1} frameIndex={0} />
-  );
+  const tile: ITile = props.tile;
+  const [charImage] = useImage(tile.sprite.file);
+  if (props.type === ScenesTypes.FLOOR) {
+    return (
+      <Sprite x={props.x} y={props.y} ref={(node => {if(node && !node.isRunning()) node.start()})}
+      image={charImage} animations={tile.sprite.animations} animation={tile.sprite.defaultAnimation} frameRate={1} frameIndex={0} />
+    );
+  } else if (props.type === ScenesTypes.MOBS) {
+    const mob: ISprite = props.tile;
+    return ( <Mob config={mob} /> );
+  } else {
+    return <Rect fill={'green'} height={props.y * props.size} width={props.x * props.size} />;
+  }
 }
 
-class Scenario1 extends Component<IPropsFromConnect , any> {
+class Scenario extends Component<IProps & IPropsFromConnect , any> {
   render(){
-    const { world } = this.props;
+    const { world, scene } = this.props;
 
     const GenerateFields = () => {
       const { fieldSize } = world;
@@ -32,9 +46,12 @@ class Scenario1 extends Component<IPropsFromConnect , any> {
       let scenario: any = [];
       for (let y = 0; y < numberFields; y++) {
         for (let x = 0; x < numberFields; x++) {
-          scenario.push(
-            <Field key={`position-${x}-${y}`} x={x * fieldSize} y={y * fieldSize} size={fieldSize} />
-          );
+          const scn = scene.fields[x] || scene.defaultField;
+          if (scn) {
+            scenario.push(
+              <Field key={`position-${x}-${y}`} type={scene.type} tile={scn} x={x * fieldSize} y={y * fieldSize} size={fieldSize} />
+            );
+          }
         }
       }
       return scenario;
@@ -53,4 +70,4 @@ function mapStateToProp(state: any) {
   }
 }
 
-export default connect(mapStateToProp)(Scenario1);
+export default connect(mapStateToProp)(Scenario);
